@@ -16,24 +16,23 @@ import oracle.jdbc.driver.OracleDriver;
 
 public class Db {
 
-	public static void main(String[] args) throws SQLException, FileNotFoundException {
-		Connection connection = getConnection();
-		Statement stat = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		stat.executeUpdate("delete from dept where deptno = 1");
-		stat.executeUpdate("insert into dept(deptno, dname, loc) values (1, 'IT Department', 'Moscow')");
-		ResultSet rs = stat.executeQuery("select * from dept");
-		rs.beforeFirst();
-		File file = new File("result.txt");
-		PrintWriter pw = new PrintWriter(file);
-		while(rs.next()){ 
-			int deptno = rs.getInt("deptno");
-			String dname = rs.getString("dname"),
-					loc = rs.getString(3); // rs.getString("loc")
-			pw.println(deptno + " | " + dname + " | " + loc);
+	public static void main(String[] args) throws FileNotFoundException, SQLException {
+		try (Connection conn = getConnection()){
+			Statement stat = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			stat.executeUpdate("delete from dept where deptno = 1");
+			stat.executeUpdate("insert into dept(deptno, dname, loc) values (1, 'IT Department', 'Moscow')");
+			ResultSet rs = stat.executeQuery("select * from dept");
+			rs.beforeFirst();
+			File file = new File("result.txt");
+			PrintWriter pw = new PrintWriter(file);
+			while(rs.next()){ 
+				String deptno = rs.getString("deptno");
+				String dname = rs.getString("dname"),
+						loc = rs.getString(3); // rs.getString("loc")
+				pw.println(deptno + " | " + dname + " | " + loc);
+			}
+			pw.close();			
 		}
-		pw.close();
-		connection.close();
-		System.out.println(connection);
 	}
 	
 	public static Connection getConnection(){
