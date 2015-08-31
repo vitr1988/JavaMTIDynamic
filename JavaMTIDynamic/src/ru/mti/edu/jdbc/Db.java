@@ -39,7 +39,7 @@ public class Db {
 	public static Connection getConnection(){
 		try {
 //			Class.forName("oracle.jdbc.driver.OracleDriver");
-			// та же самая загрузка драйвера СУБД
+			// пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 			OracleDriver driver = new OracleDriver();
 			DriverManager.registerDriver(driver);
 			
